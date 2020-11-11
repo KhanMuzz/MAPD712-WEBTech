@@ -1,6 +1,7 @@
  import React, {useState} from 'react';
  import { StyleSheet,Button,  Text, View, ScrollView, TouchableOpacity} from 'react-native';
 
+
 class ProfileScreen extends React.Component {
   //Making use of state to start an array
   constructor(props){
@@ -14,7 +15,7 @@ class ProfileScreen extends React.Component {
   }
   //Call my Rest local host server
   apiHandler=function(){
-  const uri = 'http://127.0.0.1:3009/patients'
+  const uri = 'http://127.0.0.1:5000/patients'
   //const URL = 'https://jsonplaceholder.typicode.com/photos?_limit=10'
   fetch(uri,
     {
@@ -33,14 +34,20 @@ class ProfileScreen extends React.Component {
         { this.state.data.map( (eachJsonObj)=>{
           return( 
             <View key={eachJsonObj.key}>
-              <Text style={[styles.list, styles.name]}>{eachJsonObj.name}</Text>
-              <Text style={styles.list}>Age: {eachJsonObj.age}</Text>
-              <Text style={styles.list}>Phone: {eachJsonObj.phone}</Text>
-              <Text style={styles.list}>Blood Pressure: {eachJsonObj.BP}</Text>
-              <Text style={styles.list}>Heart Beat Rate: {eachJsonObj.HR}</Text>
-              <Text style={styles.list}>Respiratory Rate: {eachJsonObj.RR}</Text>
-              <Text style={styles.list}>CDC Temperature: {eachJsonObj.CDC}</Text>
-              <Text style={styles.list}>Blood Oxygen Lev: {eachJsonObj.BOL}</Text>
+             
+              <Text style={[styles.list, styles.name]}>{eachJsonObj.firstName}{" "}
+              <Text>{eachJsonObj.lastName}</Text>
+              </Text>
+              <Text style={[styles.list]}><Text style={styles.titles}>ID:{" "}</Text>{eachJsonObj._id}</Text>
+              <Text style={styles.list}><Text style={styles.titles}>Age:{" "}</Text>{eachJsonObj.age}</Text>
+              <Text style={styles.list}><Text style={styles.titles}>Phone:{" "}</Text>{eachJsonObj.phoneNum}</Text>
+              <Text style={styles.list}><Text style={styles.titles}>Visit Date:{" "}</Text>{eachJsonObj.visitDate}</Text>
+              <Text style={styles.list}><Text style={styles.titles}>Phone:{" "}</Text>{eachJsonObj.familyDoctor}</Text>
+              <Text style={styles.list}><Text style={styles.titles}>Blood Pressure:{" "}</Text>{eachJsonObj.bloodPressure}</Text>
+              <Text style={styles.list}><Text style={styles.titles}>Heart Beat Rate:{" "}</Text>{eachJsonObj.heartBeatRate}</Text>
+              <Text style={styles.list}><Text style={styles.titles}>Respiratory Rate:{" "}</Text>{eachJsonObj.respiratoryRate}</Text>
+              <Text style={styles.list}><Text style={styles.titles}>CDC Temperature:{" "}</Text>{eachJsonObj.CDCTemperature}</Text>
+              <Text style={styles.list}><Text style={styles.titles}>Blood Oxygen Lev:{" "}</Text>{eachJsonObj.bloodOxygenLevel}</Text>
             </View> 
           )
         })} 
@@ -83,7 +90,12 @@ const styles = StyleSheet.create({
       fontSize:24
     },
     name:{
-      textAlign:'center', fontWeight:'bold', fontSize:30
+      fontWeight:'bold',
+       textAlign: 'center',
+       fontSize:30
+    },
+    titles:{
+      fontWeight:'bold'
     },
     button:{
     marginTop:10,

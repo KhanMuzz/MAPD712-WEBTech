@@ -71,7 +71,8 @@ class CriticalPatients extends React.Component {
       <View>
         <TouchableOpacity style={styles.button}
        onPress={()=>{
-          this.apiHandler()
+          //this.apiHandler()
+          alert("Coming soon")
        }
       }
         >
