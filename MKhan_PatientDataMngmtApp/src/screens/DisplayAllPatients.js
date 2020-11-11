@@ -1,7 +1,13 @@
  import React, {useState} from 'react';
  import { StyleSheet,Button,  Text, View, ScrollView, TouchableOpacity} from 'react-native';
 
-
+/*
+Developer: MUZZAMIL KHAN
+Course: MAPD-712 Web Tech
+Instructor: MR. PAWLUK
+Description: Project Patient Data - Milestone 3
+Git: https://github.com/KhanMuzz/MAPD712-WEBTech
+*/
 class ProfileScreen extends React.Component {
   //Making use of state to start an array
   constructor(props){
@@ -13,7 +19,7 @@ class ProfileScreen extends React.Component {
     var firstCounter=0
     var lastCounter = 0
   }
-  //Call my Rest local host server
+  //Make connection and Call Mondoose Local host server with user's input
   apiHandler=function(){
   const uri = 'http://127.0.0.1:5000/patients'
   //const URL = 'https://jsonplaceholder.typicode.com/photos?_limit=10'
@@ -25,9 +31,9 @@ class ProfileScreen extends React.Component {
   { 
     this.setState({ data : respJson})//no need for to caste, already in JSON format
   }).catch((error) => console.error(error))
-}
+  }//api handler method ends
 
-//Using Map loop through and print patient data in scrollable form
+//Using Map loop through and print patient data in scrollable view
   list = () => {
     return (
       <View>
@@ -69,8 +75,8 @@ class ProfileScreen extends React.Component {
       </View>
       <View>
         <TouchableOpacity style={styles.button}
-        //Onclick call the api handler method to connect with my server
-       onPress={()=>{this.apiHandler()}}>
+            //Onclick call the api handler method to connect with my server
+            onPress={()=>{this.apiHandler()}}>
             <Text style={{fontSize:20, fontWeight:'bold'}}>List All Patients</Text>
         </TouchableOpacity>
       </View>
@@ -78,6 +84,7 @@ class ProfileScreen extends React.Component {
     );
   }
 }
+//Custom Styling
 const styles = StyleSheet.create({
     container: {
       flex: 1,
