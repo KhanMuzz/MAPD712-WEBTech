@@ -5,9 +5,11 @@ import { StyleSheet, Button, Text, View, Image, TouchableOpacity} from 'react-na
 Developer: MUZZAMIL KHAN
 Course: MAPD-712 Web Tech
 Instructor: MR. PAWLUK
-Description: Project Patient Data - Milestone 3
+Description: Project Patient Data - Milestone 4
 Git: https://github.com/KhanMuzz/MAPD712-WEBTech
 */
+
+//------------------- HOME SCREEN WITH ALL OPTIONS -------------------------
 
 //Main home screen with buttons for user to perform different actions
 class HomeScreen extends React.Component { 
@@ -22,8 +24,13 @@ class HomeScreen extends React.Component {
            
            <View style={{flex : 8, backgroundColor: '#b534fa'}}>
            <TouchableOpacity style={styles.button}
+                  onPress={ ()=> {this.props.navigation.navigate('New Patient')} }
+                  >
+                  <Text style={{fontSize:20, fontWeight:'bold'}}>Create new Patient</Text>
+            </TouchableOpacity>
+           <TouchableOpacity style={styles.button}
                   onPress={ ()=> {this.props.navigation.navigate('Patients')} }>
-                  <Text style={{fontSize:20, fontWeight:'bold'}}>View Patients</Text>
+                  <Text style={{fontSize:20, fontWeight:'bold'}}>View All Patients</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.button}
@@ -45,12 +52,12 @@ class HomeScreen extends React.Component {
 
            <TouchableOpacity style={styles.button}
                     onPress={ ()=> {this.props.navigation.navigate('Update')} }>
-                    <Text style={{fontSize:20, fontWeight:'bold'}}>Update Patient</Text>
+                    <Text style={{fontSize:20, fontWeight:'bold'}}>Update a Patient</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.button}
                     onPress={ ()=> {this.props.navigation.navigate('Delete')} }>
-                    <Text style={{fontSize:20, fontWeight:'bold'}}>Delete Patient</Text>
+                    <Text style={{fontSize:20, fontWeight:'bold'}}>Delete a Patient</Text>
             </TouchableOpacity> 
 
             <TouchableOpacity style={styles.button}
@@ -71,7 +78,7 @@ const styles = StyleSheet.create({
       backgroundColor: '#b534fa'
     },
     button:{
-    marginTop:20,
+    marginTop:12,
     height: 60,
     width: 350,
     justifyContent: 'center',

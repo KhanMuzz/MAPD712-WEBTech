@@ -1,73 +1,138 @@
-import React from 'react';
-import { StyleSheet, Button, Text, View, TouchableOpacity} from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
+import React, {useState} from 'react';
+import { StyleSheet,Button,  Text, View, ScrollView, TouchableOpacity, Alert} from 'react-native';
 
+/*
+Developer: MUZZAMIL KHAN
+Course: MAPD-712 Web Tech
+Instructor: MR. PAWLUK
+Description: Project Patient Data - Milestone 4
+Git: https://github.com/KhanMuzz/MAPD712-WEBTech
+*/
 
-class DeletePatient extends React.Component { 
+//------------------- THIS SCREEN ALLOWS USER TO VIEW/SELECT AND DELETE A PATIENT -------------------------
+
+class DeletePatient extends React.Component {
+    //Making use of state to start an array
+    constructor(props){
+    super(props)
+    this.state={ 
+     //Create Empty array
+     data :[],
+   }
+ }
+    //This function calls server deployed on Heroku Cloud
+    apiHandler=function(){
+   
+    //1. For local server call  
+    //const uri = 'http://127.0.0.1:5000/patients'
+ 
+    //2. For cloud Heroku server deployed call
+    const uri = 'https://patient-data-managment.herokuapp.com/patients'
+    fetch(uri,
+      {
+        headers : { 'Content-Type' : 'application/json'}
+      }
+      ).then((resp)=>resp.json()).then((respJson)=>
+      { 
+        this.setState({ data : respJson})//no need for to caste, already in JSON format
+      }).catch((error) => console.error(error))
+      }//api handler method ends
+
+    //This builds up a special view display while looping through patient object from MONGODB cloud storage
+    list = () => {
+        return (
+          <View>
+            { this.state.data.map( (eachJsonObj)=>{
+              return( 
+                <View key={eachJsonObj._id}>
+                    <TouchableOpacity style={styles.displayBox}
+                        //Onclick call the api handler method to connect with my server
+                        onPress={()=>{alert(eachJsonObj._id)}}>  
+                          <View style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'column'}}>
+                              <View style={{ flex: 1, alignSelf: 'stretch' }}> 
+                                  <Text style={[styles.list, styles.name]}>Name: {eachJsonObj.firstName}{" "}
+                                    <Text>{eachJsonObj.lastName}</Text>
+                                  </Text>
+                              </View>
+                              <View style={{ flex: 1, alignSelf: 'stretch' }}> 
+                                  <Text style={{fontSize:20, textAlign:'center'}}><Text style={styles.titles}> ID:{" "}</Text>{eachJsonObj._id}</Text>
+                                    <Text></Text>
+                                  <Text style={{textAlign: 'center'}}>CLICK TO DELETE</Text>
+                             </View>
+                        </View>
+                    </TouchableOpacity>
+                </View> 
+              )
+            })} 
+          </View>
+        );
+      };
+  //This is main JSX render area which calls the list above and then displays in for user
   render() {
-    return (
-      <View style={{flex: 1, backgroundColor: '#b534fa'}}>
-      <View style={{flex: 1}}>
-        <View style={{flex: 1, flexDirection: 'row', justifyContent:'center', marginTop:20, alignItems:'center'}}>
-          <View style={{width: 150, height: 50, backgroundColor: 'gray',justifyContent:'center', alignItems:'center'}}>
-            <Text style={{fontSize:20, fontWeight:'bold'}}>Patient id:</Text>
-         </View>
-        <View style={{width: 200, height: 50, backgroundColor: 'white', marginLeft:20}}>
-            <TextInput style={{backgroundColor:'white', width:200, height:50}}
-                      onChangeText={text => this.setState({ text })}
-                      style={{flex:1, fontSize:24}}></TextInput>
-        </View> 
-      </View>
-    </View> 
-    <View style={{flex: 5, backgroundColor:'white'}} />
-        <View style={{flex: 1, justifyContent:'center',alignItems:'center'}} >
-            <TouchableOpacity style={styles.button2}
-                              onPress={()=>{ alert("Coming soon")}}>
-          <Text style={{fontSize:20, fontWeight:'bold'}}>Delete Patient</Text>
-            </TouchableOpacity>
-        </View>
-      </View>
+        //Make a variable to store data in array
+        const { data } = this.state
+          return (
+            <View style={styles.container}>
+              <View style={{height:'87%', flexDirection:'row'}}>
+                  <ScrollView>
+                    {      
+                      this.list() 
+                    }
+                  </ScrollView>
+                </View>
+                <View style={{}}>
+                  <TouchableOpacity style={styles.button}
+                      //Onclick call the api handler method to connect with my server
+                      onPress={()=>{this.apiHandler()}}>
+                      <Text style={{fontSize:20, fontWeight:'bold'}}>Choose a patient</Text>
+                  </TouchableOpacity>
+                </View>
+            </View>
     );
   }
-}
+}//main render end block
 
-
+//Custome styling for the page
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#b534fa'
-  },
-  button:{
-  marginTop:50,
-  marginBottom:30,
-  height: 50,
-  width: 300,
-  justifyContent: 'center',
-  alignItems: 'center',
-  alignSelf:'center',
-  backgroundColor: '#606060',
-  },
-  input:{
-    width:200,
-    backgroundColor:'white',
-    borderWidth:2,
-    borderColor:'black',
-    margin:8,
-    padding: 8
-    
-    },button2:{
-      marginTop:50,
-      marginBottom:50,
-      height: 50,
-      width: 300,
-      justifyContent: 'center',
-      alignItems: 'center',
-      alignSelf:'center',
-      backgroundColor: '#606060',
-      }
-});
+   container: {
+     flex: 1,
+     backgroundColor: '#b534fa'
+   },
+   list:{
+     marginTop:10,
+     padding: 5,
+     fontSize:24
+   },
+   name:{
+     fontWeight:'bold',
+     fontSize:24,
+     textAlign: 'center'
+   },
+   titles:{
+     fontWeight:'bold'
+   },
+   button:{
+   marginTop:10,
+   height: 60,
+   width: 350,
+   justifyContent: 'center',
+   alignItems: 'center',
+   alignSelf:'center',
+   backgroundColor: '#606060',
+   },
+   displayBox:{
+   justifyContent: 'center',
+   alignItems: 'center',
+   marginRight:40,
+   marginLeft:40,
+   marginTop:10,
+   paddingTop:5,
+   paddingBottom:20,
+   backgroundColor:'#606060',
+   borderRadius:10,
+   borderWidth: 1,
+   borderColor: 'black'
+   }
+ });
 
 export default DeletePatient;
-
